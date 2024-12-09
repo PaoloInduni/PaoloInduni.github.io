@@ -53,11 +53,11 @@
 
     <!-- Body content -->
 
-    <div class="container mx-5 my-5 text-light">
+    <div class="mx-5 my-5 text-light">
 
         <h1 id="label" class="mb-5">Profile</h1>
 
-        <div id="Profile-Content" class="row">
+        <div id="profile-content" class="row">
 
             <div class="col-3 rounded bg-dark">
                 <h4 class="text-center py-2">Skills</h4>
@@ -82,7 +82,7 @@
                 </dl>
 
             </div>
-            <div class="col">
+            <div class="col-9">
 
                 <div class="list-group">
 
@@ -187,12 +187,14 @@
         document.getElementById("profile-tab2").onclick = function () {
             document.getElementById("label").innerHTML = 'Profile';
             document.getElementById("label").style.color = "";
+            document.getElementById("profile-content").hidden = false;
         };
     </script>
 
     <script type="text/javascript">
         document.getElementById("portfolio-tab2").onclick = function () {
             document.getElementById("label").innerHTML = "Portfolio"
+            document.getElementById("profile-content").hidden = true;
         };
     </script>
 
