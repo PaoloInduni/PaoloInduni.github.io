@@ -1,3 +1,325 @@
-.text-justify {
-    text-align: justify;
+/* Theme vars & typography */
+:root{
+    --bg-1: #002b8a;
+    --bg-2: #043873;
+    --accent: #60a5fa;
+    --muted: rgba(255,255,255,0.7);
+    --pill-bg: rgba(255,255,255,0.06);
+    --pill-border: rgba(255,255,255,0.08);
+    --glass-shadow: 0 6px 18px rgba(2,6,23,0.5);
+
+    /* new semantic accents for cards */
+    --color-primary: #60a5fa; /* Systems & Low-Level */
+    --color-success: #4ade80; /* Web & Compilers */
+    --color-warning: #f59e0b; /* Data & QA */
+    --color-info:    #7dd3fc; /* Algorithms & Games */
+
+	/* Contrast helpers */
+	--text-light: #eef4ff;
+	--text-dark: #04233f;
+	--muted-light: rgba(255,255,255,0.72); /* secondary default */
+	--muted-dark: rgba(0,0,0,0.58);         /* secondary on light bg */
+}
+
+html,body {
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: var(--muted);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+/* Background upgrade */
+.bg-gradient{
+    background-color: var(--bg-1); /* fallback if gradient is not applied */
+    background-image:
+        radial-gradient( circle at 10% 10%, rgba(96,165,250,0.06), transparent 12% ),
+        linear-gradient( 288deg,  rgba(0,85,255,1) 1.5%, rgba(4,56,115,1) 91.6% );
+    min-height:100vh;
+}
+
+/* Site container animation */
+.site-container{
+    background: transparent;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: fadeInUp .6s .12s ease forwards;
+}
+@keyframes fadeInUp{
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Headings */
+h1 { font-weight:700; letter-spacing: -0.02em; color: #fff; }
+h4 { font-weight:600; color: #e6eefb; }
+
+/* Ensure card headers and titles share consistent colors */
+.card-header,
+.card-header i,
+.card-header strong {
+    color: var(--accent);
+}
+
+/* Cards and list items (subtle glass look) */
+.card, .list-group-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    border-radius: 10px;
+}
+.card:hover, .list-group-item:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--glass-shadow);
+    border-color: rgba(96,165,250,0.12);
+}
+
+/* Card header accents */
+.card-header { background: transparent; font-weight:600; color: var(--accent); border-bottom: 1px dashed rgba(255,255,255,0.03); }
+
+/* Images: subtle zoom & saturate on hover */
+.col img {
+    display:block;
+    transition: transform .28s ease, filter .28s ease;
+    border-radius: 8px;
+}
+.col img:hover {
+    transform: scale(1.03);
+    filter: saturate(1.08) contrast(1.02);
+}
+
+/* List-group titles */
+.list-group-item .mb-1 { color: #eef4ff; }
+
+/* Floating pill glass style */
+.floating-pill {
+    position: fixed;
+    right: 20px;
+    top: 15%;
+    z-index: 1080;
+    transition: transform .28s cubic-bezier(.22,.9,.26,1), opacity .22s ease;
+    padding: 6px 10px;
+    gap: 8px;
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    backdrop-filter: blur(6px) saturate(1.1);
+    box-shadow: 0 8px 24px rgba(3,7,18,0.6);
+    color: #fff;
+}
+.floating-pill.hidden { transform: translateX(120%); opacity:0; pointer-events:none; }
+.floating-pill.visible { transform: translateX(0); opacity:1; }
+
+/* Buttons inside pill */
+.floating-pill .fp-btn {
+    border-radius: 999px;
+    background: transparent;
+    color: rgba(255,255,255,0.9);
+    border: none;
+    padding: 6px 10px;
+}
+.floating-pill .fp-btn.active {
+    background: linear-gradient(90deg, rgba(96,165,250,0.12), rgba(96,165,250,0.18));
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(14,123,255,0.12);
+}
+
+/* Restore button */
+.floating-pill-restore {
+    position: fixed;
+    right: 20px;
+    top: 15%;
+    z-index: 1081;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 18px rgba(2,6,23,0.45);
+}
+
+/* Elevation on focus */
+.fp-btn:focus-visible { outline: 3px solid rgba(96,165,250,0.16); outline-offset: 3px; }
+
+/* Ensure header anchors are not hidden under any fixed elements */
+#section-profile, #section-portfolio, #section-academic {
+    scroll-margin-top: 80px;
+}
+
+/* Floating pill: responsive adjustments */
+@media (max-width: 576px) {
+    .floating-pill { top: auto; bottom: 18px; right: 18px; padding: 4px 6px; }
+    .floating-pill-restore { top: auto; bottom: 18px; right: 18px; }
+}
+
+/* Minor improvement for lists on dark bg */
+dl dt { color: #cfe8ff; }
+dl dd { color: #f3f7ff; }
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .floating-pill, .site-container { transition: none; animation: none; }
+}
+
+/* Experience: unified light text, hover -> light bg + dark text for contrast */
+#profile-content .list-group-item {
+    color: #eaf4ff; /* consistent light text */
+    background: rgba(255,255,255,0.02);
+    transition: background .18s ease, color .18s ease, transform .12s ease;
+}
+#profile-content .list-group-item:hover {
+    background: rgba(255,255,255,0.94); /* contrast: light bg */
+    color: var(--bg-1); /* dark text on hover */
+}
+#profile-content .list-group-item h5,
+#profile-content .list-group-item small,
+#profile-content .list-group-item ul,
+#profile-content .list-group-item li {
+    color: inherit; /* force inheritance (no mixed styles) */
+}
+/* adjust small metadata to match */
+#profile-content .list-group-item small.text-muted {
+    color: inherit;
+    opacity: 1;
+}
+
+/* Academic cards: make accents match their border class */
+
+/* Primary (Systems & Low-Level) */
+.card.border-primary {
+    border-color: rgba(96,165,250,0.16);
+}
+.card.border-primary .card-header,
+.card.border-primary .card-header i,
+.card.border-primary .card-header strong,
+.card.border-primary .card-title,
+.card.border-primary .btn-outline-primary {
+    color: var(--color-primary);
+}
+.card.border-primary .btn-outline-primary:hover {
+    background: var(--color-primary);
+    color: #04233f;
+    border-color: var(--color-primary);
+}
+
+/* Success (Web & Compilers) */
+.card.border-success {
+    border-color: rgba(74,222,128,0.14);
+}
+.card.border-success .card-header,
+.card.border-success .card-header i,
+.card.border-success .card-header strong,
+.card.border-success .card-title,
+.card.border-success .btn-outline-success {
+    color: var(--color-success);
+}
+.card.border-success .btn-outline-success:hover {
+    background: var(--color-success);
+    color: #06301a;
+    border-color: var(--color-success);
+}
+
+/* Warning (Data & QA) */
+.card.border-warning {
+    border-color: rgba(245,158,11,0.16);
+}
+.card.border-warning .card-header,
+.card.border-warning .card-header i,
+.card.border-warning .card-header strong,
+.card.border-warning .card-title,
+.card.border-warning .btn-outline-warning {
+    color: var(--color-warning);
+}
+.card.border-warning .btn-outline-warning:hover {
+    background: var(--color-warning);
+    color: #3a2a00;
+    border-color: var(--color-warning);
+}
+
+/* Info (Algorithms & Games) */
+.card.border-info {
+    border-color: rgba(125,211,252,0.14);
+}
+.card.border-info .card-header,
+.card.border-info .card-header i,
+.card.border-info .card-header strong,
+.card.border-info .card-title,
+.card.border-info .btn-outline-info {
+    color: var(--color-info);
+}
+.card.border-info .btn-outline-info:hover {
+    background: var(--color-info);
+    color: #042433;
+    border-color: var(--color-info);
+}
+
+/* Apply contrast variables to main interactive containers */
+#profile-content .list-group-item,
+.col-6.bg-dark,
+.col-5,
+.card,
+.list-group-item,
+.site-container {
+	--text-current: var(--text-light);
+	--muted-current: var(--muted-light);
+	transition: color .18s ease, background .18s ease;
+}
+
+/* On hover, switch to dark text for contrast (when container becomes lighter)
+   Exclude elements that explicitly have .bg-dark so portfolio cards don't flip to dark text */
+#profile-content .list-group-item:hover,
+.col-5:hover,
+.card:hover:not(.bg-dark),
+.list-group-item:hover:not(.bg-dark) {
+	--text-current: var(--text-dark);
+	--muted-current: var(--muted-dark);
+}
+
+/* Dark containers keep light text and get a subtle lift on hover for contrast */
+.col-6.bg-dark:hover,
+.card.bg-dark:hover,
+.list-group-item.bg-dark:hover {
+	--text-current: var(--text-light);
+	--muted-current: var(--muted-light);
+	background-color: rgba(255,255,255,0.03); /* subtle lift while staying dark */
+	box-shadow: var(--glass-shadow);
+}
+
+/* Apply current text color to primary text elements (without overriding accent rules) */
+#profile-content .list-group-item,
+#profile-content .list-group-item h5,
+#profile-content .list-group-item ul,
+#profile-content .list-group-item li,
+#profile-content .list-group-item p,
+.col-6.bg-dark h4,
+.col-6.bg-dark p,
+.col-6.bg-dark ul,
+.col-6.bg-dark li,
+.col-5 p,
+.card .card-body p,
+.card .card-body .card-text,
+.list-group-item .mb-1,
+h5 {
+	color: var(--text-current) !important;
+	transition: color .18s ease;
+}
+
+/* Secondary/muted text (dates, roles): lighter by default, darkens on hover */
+#profile-content .list-group-item small.text-muted,
+.small, small.text-muted {
+	color: var(--muted-current) !important;
+	transition: color .18s ease, opacity .18s ease;
+	opacity: 1;
+}
+
+/* Ensure link contrast adjusts on container hover */
+#profile-content .list-group-item a,
+.col-6.bg-dark a,
+.card a {
+	color: var(--text-current);
+	transition: color .18s ease;
+}
+#profile-content .list-group-item:hover a,
+.col-6.bg-dark:hover a,
+.card:hover a {
+	color: var(--text-dark);
 }
